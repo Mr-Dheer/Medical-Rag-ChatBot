@@ -37,6 +37,98 @@ from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 from langchain_core.prompts import PromptTemplate
 
+
+# --- Add near the top with your other imports ---
+import streamlit as st
+
+def style_chat_input():
+    st.markdown(
+        """
+        <style>
+        /* Make the chat input area "sticky" and visually separated */
+        [data-testid="stChatInput"] {
+            position: sticky;
+            bottom: 0;
+            z-index: 100;
+            padding: 12px 16px;
+            border-top: 1px solid rgba(120, 120, 120, 0.2);
+            backdrop-filter: blur(6px);
+            background: linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.03));
+        }
+
+        /* Base styling for the text area inside chat input */
+        [data-testid="stChatInput"] textarea,
+        [data-testid="stChatInput"] textarea:focus,
+        /* Fallback selector for some Streamlit builds */
+        div[data-baseweb="textarea"] textarea {
+            font-size: 1rem;
+            line-height: 1.35;
+            border: 2px solid rgba(255, 107, 107, 0.6); /* coral-ish highlight */
+            border-radius: 14px !important;
+            background: #fffaf0; /* soft warm background */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: box-shadow 120ms ease, border-color 120ms ease, background 120ms ease;
+        }
+
+        /* Focus state: stronger glow */
+        [data-testid="stChatInput"] textarea:focus {
+            outline: none !important;
+            border-color: #ff6b6b !important;
+            box-shadow:
+                0 0 0 3px rgba(255, 107, 107, 0.25),
+                0 10px 30px rgba(255, 107, 107, 0.10);
+            background: #fffdf7;
+        }
+
+        /* Placeholder color & weight */
+        [data-testid="stChatInput"] textarea::placeholder {
+            color: #b55959;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        /* Dark mode tweaks */
+        @media (prefers-color-scheme: dark) {
+          [data-testid="stChatInput"] {
+            border-top-color: rgba(255,255,255,0.08);
+            background: linear-gradient(180deg, rgba(255,255,255,0.00), rgba(255,255,255,0.03));
+          }
+          [data-testid="stChatInput"] textarea,
+          div[data-baseweb="textarea"] textarea {
+            background: #1a1b1e;
+            border-color: rgba(255, 140, 140, 0.55);
+            color: #f5f5f7;
+          }
+          [data-testid="stChatInput"] textarea:focus {
+            border-color: #ff8a8a !important;
+            box-shadow:
+              0 0 0 3px rgba(255, 138, 138, 0.25),
+              0 10px 30px rgba(255, 138, 138, 0.12);
+            background: #1d1e22;
+          }
+          [data-testid="stChatInput"] textarea::placeholder {
+            color: #ffb3b3;
+          }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # -------------------------
 # Config
 # -------------------------
@@ -98,6 +190,12 @@ def render_sources(sources):
 # -------------------------
 # Streamlit UI
 # -------------------------
+# Add this helper near the top (after imports)
+def chat_input_card(placeholder: str):
+    with st.container(border=True):
+        st.caption("✍️ Your message")
+        return st.chat_input(placeholder)
+
 def main():
     st.set_page_config(page_title="Medical RAG ChatBot", page_icon="🩺", layout="wide")
     st.title("🩺 Medical RAG ChatBot")
@@ -128,7 +226,8 @@ def main():
         st.chat_message(m["role"], avatar=("👤" if m["role"]=="user" else "🩺")).markdown(m["content"])
 
     # --- Chat input ---
-    user_prompt = st.chat_input("Ask your medical question here...")
+
+    user_prompt = chat_input_card("Ask your medical question here...")
     if user_prompt:
         st.chat_message("user", avatar="👤").markdown(user_prompt)
         st.session_state.messages.append({"role": "user", "content": user_prompt})
