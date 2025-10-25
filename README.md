@@ -1,11 +1,8 @@
-# Medical-Rag-ChatBot
+# 🩺 Medical RAG ChatBot (Streamlit + LangChain + FAISS + Hugging Face)
 
-Website link - https://medical-rag-chatbot-2khwtnyvzmtd3fgoqfztfr.streamlit.app/
-Here's a polished, recruiter-friendly README tailored to the code and structure you shared. You can paste it into `README.md` at your repo root.
+WebApp link - https://medical-rag-chatbot-2khwtnyvzmtd3fgoqfztfr.streamlit.app/
 
 ---
-
-# 🩺 Medical RAG ChatBot (Streamlit + LangChain + FAISS + Hugging Face)
 
 **A production-leaning Retrieval-Augmented Generation (RAG) chatbot for medical PDFs.**
 Built with Streamlit for a clean chat UX, LangChain for orchestration, FAISS for fast local vector search, and Hugging Face Inference for chat LLMs (Mistral-7B-Instruct).
